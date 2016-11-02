@@ -1,0 +1,95 @@
+//Levels a file based on Outline Level
+
+//  LevelFile.dxl
+//  Modified by Michelle Swick
+//  Holmes-Tucker, International
+//  JTAMDO Project
+//  Last modified on 09/30/1997
+
+//  Supplied by Don Young, QSS Reston, VA with permission of the author.
+
+/*
+Modified by Jeff Chandler, Telelogic to allow running after importing spreadsheet
+into module with existing objects (that may not have values for "Outline Level")
+*/
+
+// This code is provided "As Is". There are no warrenties implied or otherwise from QSS.
+// User uses at their own risk. It is recommended that your module be saved prior 
+// to running this script in case the results are not as expected.
+
+/*
+    This puts all objects to level 1 and then re-levels
+    the module based on the Outline Level attribute.
+*/
+
+// Assign Outline Level
+
+/* 
+This function assigns values to Outline Level (existing objects would have null values)
+*/
+
+pragma  runLim, 0
+Object o
+const string ol = "Outline Level"
+
+for o in current Module do {
+	if (null o.ol"") o."Outline Level" = level o
+}
+
+//*****Variables*****//
+Object curobj, prevobj
+int reverse, prevlevel, curlevel, testlevel
+
+//*****level_file procedure*****//
+//  Puts all objects to level 1
+void level_file (){
+  //  Test to see if the module is empty, level to 1 if not
+  curobj = first current Module
+  if (!null curobj) {
+    curobj = last current Module
+    for (true) {
+      curlevel = level curobj
+      if (curlevel != 1) {
+        prevobj = previous curobj
+        prevlevel = level prevobj
+        while (prevlevel != 1) {
+          prevobj = parent prevobj
+          prevlevel = level prevobj
+          if (null prevlevel) break
+        }  //  while (prevlevel != 1)
+        move (curobj, prevobj)
+      }  //  if (curlevel != 1)
+      curobj = previous curobj
+      if (null curobj) break
+    }  //  for (true)
+  }  //  if (!null curobj)
+}  //  void level_file
+
+//*****import_file procedure*****//
+//  Redo hierarchy based on "Outline Level" attribute
+void relevel_file (){
+  curobj = first current Module
+  curlevel = curobj."Outline Level"
+  if (curlevel != 1) {"PROBLEM:  QUITTING!" ; halt}
+  for (true) {  //  Loop forever (at least until null obj appears)
+    prevobj = curobj
+    prevlevel = prevobj."Outline Level"
+    curobj = next curobj
+    if (null curobj) halt
+    curlevel = curobj."Outline Level"
+    int delta = prevlevel - curlevel
+    if (delta < 0) move (curobj, below prevobj)
+    if (delta == 0) move (curobj, prevobj)
+    if (delta > 0) {
+      for (reverse = 0; reverse < delta; reverse++) {
+        prevobj = parent prevobj
+        testlevel = prevobj."Outline Level"
+        move (curobj, prevobj)
+      }  //  for (reverse = 0;
+    }  //  if (delta > 0)
+  }  //  for (true)
+}  //  void import_file
+
+//  Main program
+level_file
+relevel_file

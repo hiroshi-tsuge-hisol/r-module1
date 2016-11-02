@@ -1,0 +1,90 @@
+// Add User List
+/*
+CSV形式のユーザーリストをDOORSのユーザーとして登録する。
+"ユーザーID"、"ユーザ名前"、"グループ"の順で、カンマ(,)で区切られた
+データを準備する。
+パスワードはスペースで設定する。
+*/
+
+pragma runLim, 0 
+
+string filename = "c:\\work\\User_List.csv"     //登録用のユーザーファイルを指定する。
+Stream input = read filename
+
+string Indata
+string uid,uname,gname
+int numChar,wk,m,n
+int count = 0 
+
+while (! end(input)) {
+   input >> Indata
+   //print Indata "\n" 
+   m = 0
+   n = 0
+   numChar = length (Indata)  //文字数カウント
+   while (n < numChar) {
+      if (Indata[n:n] == ",") {
+         m++
+         if (m == 1) {
+            uid = Indata[0:n-1]         //User ID
+            //print uid "\n"
+            wk = n
+         }
+  
+         if (m == 2) {
+            uname = Indata[wk+1:n-1]       //User Name
+            gname = Indata[n+1:numChar]    //Grop Name
+            //print uname "\n"
+            //print gname "\n"
+            break 
+         }
+      }
+      n++
+   }
+
+//グループ登録
+   const string sGroupName = gname
+   if (addGroup(sGroupName) == null) {
+      if (saveDirectory() == null){      // refresh
+         
+         if (loadDirectory() == null){
+         }
+      } 
+   } else {
+       //グループ登録あり
+   } 
+
+//ユーザー登録
+   const string sUserName = uid
+   const string sUserLogin = uname
+   //const string sUserpass = uid
+   const string sUserpass = null
+   if (addUser(sUserName, sUserpass, sUserLogin) == null)  { // save new user list
+      //print "user " str" created\n"
+      if (saveDirectory() == null){      // refresh
+         
+         if (loadDirectory() == null){
+         }
+      }
+      count++ 
+   } else {
+      // warn user
+      print "ユーザー； " sUserName " は登録済みです！" "\n"
+   }
+
+//メンバー登録
+   Group g = find(sGroupName)
+   User u = find(sUserName)
+   addMember (g,u)
+   u.class = databaseManager 
+
+   if (saveDirectory() == null){      // refresh
+         
+      if (loadDirectory() == null){
+      }
+   } 
+
+
+}
+close(input)
+infoBox "ユーザー登録処理が終了しました。" "\n" count "人がユーザーとして登録されました。"
