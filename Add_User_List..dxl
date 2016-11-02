@@ -8,7 +8,7 @@ CSV形式のユーザーリストをDOORSのユーザーとして登録する。
 
 pragma runLim, 0 
 
-string filename = "c:\\work\\User_List.csv"     //登録用のユーザーファイルを指定する。
+string filename = "c:\\work\\User_List2.csv"     //登録用のユーザーファイルを指定する。
 Stream input = read filename
 
 string Indata
