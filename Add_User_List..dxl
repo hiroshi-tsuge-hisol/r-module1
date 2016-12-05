@@ -1,14 +1,14 @@
-// Add User List
+// Add User List #1
 /*
-CSVŒ`®‚Ìƒ†[ƒU[ƒŠƒXƒg‚ğDOORS‚Ìƒ†[ƒU[‚Æ‚µ‚Ä“o˜^‚·‚éB
-"ƒ†[ƒU[ID"A"ƒ†[ƒU–¼‘O"A"ƒOƒ‹[ƒv"‚Ì‡‚ÅAƒJƒ“ƒ}(,)‚Å‹æØ‚ç‚ê‚½
-ƒf[ƒ^‚ğ€”õ‚·‚éB
-ƒpƒXƒ[ƒh‚ÍƒXƒy[ƒX‚Åİ’è‚·‚éB
+CSVå½¢å¼ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒªã‚¹ãƒˆã‚’DOORSã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ã¨ã—ã¦ç™»éŒ²ã™ã‚‹ã€‚
+"ãƒ¦ãƒ¼ã‚¶ãƒ¼ID"ã€"ãƒ¦ãƒ¼ã‚¶åå‰"ã€"ã‚°ãƒ«ãƒ¼ãƒ—"ã®é †ã§ã€ã‚«ãƒ³ãƒ(,)ã§åŒºåˆ‡ã‚‰ã‚ŒãŸ
+ãƒ‡ãƒ¼ã‚¿ã‚’æº–å‚™ã™ã‚‹ã€‚
+ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã¯ã‚¹ãƒšãƒ¼ã‚¹ã§è¨­å®šã™ã‚‹ã€‚
 */
 
 pragma runLim, 0 
 
-string filename = "c:\\work\\User_List2.csv"     //“o˜^—p‚Ìƒ†[ƒU[ƒtƒ@ƒCƒ‹‚ğw’è‚·‚éB
+string filename = "c:\\work\\User_List2.csv"     //ç™»éŒ²ç”¨ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã™ã‚‹ã€‚
 Stream input = read filename
 
 string Indata
@@ -21,7 +21,7 @@ while (! end(input)) {
    //print Indata "\n" 
    m = 0
    n = 0
-   numChar = length (Indata)  //•¶š”ƒJƒEƒ“ƒg
+   numChar = length (Indata)  //æ–‡å­—æ•°ã‚«ã‚¦ãƒ³ãƒˆ
    while (n < numChar) {
       if (Indata[n:n] == ",") {
          m++
@@ -42,7 +42,7 @@ while (! end(input)) {
       n++
    }
 
-//ƒOƒ‹[ƒv“o˜^
+//ã‚°ãƒ«ãƒ¼ãƒ—ç™»éŒ²
    const string sGroupName = gname
    if (addGroup(sGroupName) == null) {
       if (saveDirectory() == null){      // refresh
@@ -51,10 +51,10 @@ while (! end(input)) {
          }
       } 
    } else {
-       //ƒOƒ‹[ƒv“o˜^‚ ‚è
+       //ã‚°ãƒ«ãƒ¼ãƒ—ç™»éŒ²ã‚ã‚Š
    } 
 
-//ƒ†[ƒU[“o˜^
+//ãƒ¦ãƒ¼ã‚¶ãƒ¼ç™»éŒ²
    const string sUserName = uid
    const string sUserLogin = uname
    //const string sUserpass = uid
@@ -69,10 +69,10 @@ while (! end(input)) {
       count++ 
    } else {
       // warn user
-      print "ƒ†[ƒU[G " sUserName " ‚Í“o˜^Ï‚İ‚Å‚·I" "\n"
+      print "ãƒ¦ãƒ¼ã‚¶ãƒ¼ï¼› " sUserName " ã¯ç™»éŒ²æ¸ˆã¿ã§ã™ï¼" "\n"
    }
 
-//ƒƒ“ƒo[“o˜^
+//ãƒ¡ãƒ³ãƒãƒ¼ç™»éŒ²
    Group g = find(sGroupName)
    User u = find(sUserName)
    addMember (g,u)
@@ -87,4 +87,4 @@ while (! end(input)) {
 
 }
 close(input)
-infoBox "ƒ†[ƒU[“o˜^ˆ—‚ªI—¹‚µ‚Ü‚µ‚½B" "\n" count "l‚ªƒ†[ƒU[‚Æ‚µ‚Ä“o˜^‚³‚ê‚Ü‚µ‚½B"
+infoBox "ãƒ¦ãƒ¼ã‚¶ãƒ¼ç™»éŒ²å‡¦ç†ãŒçµ‚äº†ã—ã¾ã—ãŸã€‚" "\n" count "äººãŒãƒ¦ãƒ¼ã‚¶ãƒ¼ã¨ã—ã¦ç™»éŒ²ã•ã‚Œã¾ã—ãŸã€‚"
